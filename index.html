@@ -11,13 +11,53 @@
     <!-- ScrollReveal JS for animations -->
     <script src="https://unpkg.com/scrollreveal"></script>
 
-    <!--
-    NOTA SOBRE LAS FUENTES:
-    Las fuentes 'Druk', 'Termina Test' y 'Condensed' son tipografías comerciales/personalizadas.
-    Para que se muestren correctamente, necesitarás tener una licencia y haberlas
-    importado correctamente en tu proyecto.
-    -->
     <style>
+        /*
+        ================================================================
+        --- CARGA DE FUENTES LOCALES ---
+        ================================================================
+        */
+        /* --- Fuente Primaria: Druk --- */
+        @font-face {
+            font-family: 'Druk';
+            src: url('assets/fuentes/PRIMARIA/Druk_Collection/Druk Family/Druk-Heavy-Trial.otf') format('opentype');
+            font-weight: 800; /* Heavy */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Druk';
+            src: url('assets/fuentes/PRIMARIA/Druk_Collection/Druk Family/Druk-Bold-Trial.otf') format('opentype');
+            font-weight: 700; /* Bold */
+            font-style: normal;
+        }
+
+        /* --- Fuente Secundaria: Termina Test --- */
+        @font-face {
+            font-family: 'Termina Test';
+            src: url('assets/fuentes/SECUNDARIA/Termina Test/TerminaTest-Regular.otf') format('opentype');
+            font-weight: normal; /* Regular */
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Termina Test';
+            src: url('assets/fuentes/SECUNDARIA/Termina Test/TerminaTest-Bold.otf') format('opentype');
+            font-weight: bold; /* Bold */
+            font-style: normal;
+        }
+
+        /* --- Fuente Tercera: Condensed --- */
+        @font-face {
+            font-family: 'Condensed';
+            src: url('assets/fuentes/TERCERA/Archivo_Condensed-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        /*
+        ================================================================
+        --- ASIGNACIÓN DE FUENTES Y ESTILOS GENERALES ---
+        ================================================================
+        */
         body { 
             font-family: 'Termina Test', sans-serif; 
             background-color: #0a0a0a; 
@@ -27,9 +67,11 @@
             font-family: 'Druk', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 800; /* Usamos Druk Heavy por defecto para títulos */
         }
         .font-tertiary {
             font-family: 'Condensed', sans-serif;
+            font-weight: bold;
         }
 
         /* Video de Fondo */
@@ -320,7 +362,7 @@
             { name: "'Chicharito' Hernández", team: 'Olimpo United', logo: 'assets/escudos/olimpo_united_logo.png', background: 'assets/presidentes/CH14.png' },
             { name: 'Hnos. Montiel', team: 'Peluche Caligari', logo: 'assets/escudos/pelucheCaligariFc.png', background: 'assets/presidentes/ESCORPION.png' },
             { name: 'Alana + Barcagamer', team: 'Raniza FC', logo: 'assets/escudos/RanizaFc_logo.png', background: 'assets/presidentes/ALANA.png' },
-            { name: 'Mercedes Roa', team: 'Club de Cuervos', logo: 'assets/escudos/club_de_cuervos_fc_logo.png', background: './img/presidentes/cuervos.jpg' },
+            { name: 'NataliaMX + PipePunk', team: 'Club de Cuervos', logo: 'assets/escudos/club_de_cuervos_fc_logo.png', background: './img/presidentes/cuervos.jpg' },
             { name: 'Juan Guarnizo', team: 'Aniquiladores FC', logo: 'assets/escudos/AniquiladoresFc.png', background: './img/presidentes/juan-guarnizo.jpg' },
             { name: 'Rivers', team: 'PIO FC', logo: 'assets/escudos/PioFc.webp', background: './img/presidentes/rivers.jpg' }
         ];
