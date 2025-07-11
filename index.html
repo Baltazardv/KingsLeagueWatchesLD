@@ -12,8 +12,370 @@
     <!-- ScrollReveal JS for animations -->
     <script src="https://unpkg.com/scrollreveal"></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /*
+        ================================================================
+        --- CARGA DE FUENTES LOCALES ---
+        ================================================================
+        */
+        @font-face {
+            font-family: 'Termina Test';
+            src: url('assets/fuentes/SECUNDARIA/Termina Test/TerminaTest-Black.otf') format('opentype');
+            font-weight: 900;
+            /* Black */
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Termina Test';
+            src: url('assets/fuentes/SECUNDARIA/Termina Test/TerminaTest-Regular.otf') format('opentype');
+            font-weight: normal;
+            /* Regular */
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Matrice';
+            src: url('assets/fuentes/SECUNDARIA/Termina Test/Matrice-Black.otf') format('opentype');
+            font-weight: 900;
+            /* Black */
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Archivo';
+            src: url('assets/fuentes/TERCERA/Archivo_Condensed-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /*
+        ================================================================
+        --- ASIGNACIÓN DE FUENTES Y ESTILOS GENERALES ---
+        ================================================================
+        */
+        body {
+            font-family: 'Archivo', sans-serif;
+            font-weight: bold;
+            background-color: #000000;
+            /* Fondo principal oscuro */
+            color: #fff;
+        }
+
+        /* Fuente para el titular más grande */
+        h1 {
+            font-family: 'Termina Test', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 900;
+        }
+
+        /* Fuente Matrice para todos los demás títulos, subtítulos y elementos primarios (botones, nav) */
+        h2,
+        h3,
+        summary,
+        .font-primary {
+            font-family: 'Matrice', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 900;
+            /* Matrice-Black se carga con peso 900 */
+        }
+
+        /*
+        ================================================================
+        --- PRELOADER STYLES ---
+        ================================================================
+        */
+        #preloader {
+            transition: opacity 0.75s ease-in-out, visibility 0.75s ease-in-out;
+        }
+
+        #preloader.preloader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Video de Fondo */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            object-fit: cover;
+            background-color: #0a0a0a;
+        }
+
+        /* Encabezado que Encoge */
+        #header nav {
+            transition: padding 0.3s ease-in-out;
+        }
+
+        #header.header-shrink nav {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        #header.header-shrink .top-bar {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+        }
+
+        #header .header-logo {
+            width: 6rem;
+            transition: width 0.3s ease-in-out;
+        }
+
+        #header.header-shrink .header-logo {
+            width: 5rem;
+        }
+
+        /* --- NEW HEADER STYLES --- */
+        #header .nav-link {
+            color: #ffffff;
+            /* White text for links */
+            transition: color 0.3s ease-in-out;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        #header .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f4af23;
+            transition: width 0.3s ease-in-out;
+        }
+
+        #header .nav-link:hover::after {
+            width: 100%;
+        }
+
+        #header .nav-link:hover {
+            color: #f4af23;
+            /* Gold tone for hover */
+        }
+        
+        .top-bar {
+            transition: all 0.3s ease-in-out;
+            max-height: 50px; /* Adjust as needed */
+        }
+
+
+        /* Paleta de Colores y Efectos */
+        .kings-gradient-text {
+            background: linear-gradient(90deg, #FFD700, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .kings-gradient-bg {
+            background: linear-gradient(90deg, #F59E0B, #D97706);
+        }
+
+        /* --- ESTILOS DEL BOTÓN PRINCIPAL --- */
+        #buy-main-product-btn {
+            transition: all 0.3s ease-in-out;
+        }
+
+        #buy-main-product-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px 10px rgba(245, 158, 11, 0.4);
+            /* Efecto de resplandor */
+        }
+
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Estilos de Componentes con Desenfoque */
+        .feature-card,
+        .review-card,
+        .product-card,
+        .president-card,
+        .info-panel {
+            background-color: rgba(26, 26, 26, 0.8);
+            /* Ligeramente más transparente */
+            border: 1px solid rgba(75, 75, 75, 0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .feature-card:hover,
+        .review-card:hover,
+        .product-card:hover,
+        .president-card:hover {
+            transform: translateY(-5px);
+            border-color: #f4af23;
+        }
+
+        #hero-carousel {
+            border-color: #f4af23;
+            box-shadow: 0 0 25px 5px rgba(244, 175, 35, 0.3);
+        }
+
+        /* Carrusel de Escudos */
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        @keyframes scroll-right {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .team-ticker {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .team-ticker:hover .team-ticker-track {
+            animation-play-state: paused;
+        }
+
+        .team-ticker::before,
+        .team-ticker::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .team-ticker::before {
+            left: 0;
+            background: linear-gradient(to right, #000000 20%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .team-ticker::after {
+            right: 0;
+            background: linear-gradient(to left, #000000 20%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .team-ticker-track {
+            display: flex;
+            width: fit-content;
+        }
+        
+        #team-ticker-track {
+            animation: scroll-left 40s linear infinite;
+        }
+        #team-ticker-track-2 {
+            animation: scroll-right 40s linear infinite;
+        }
+
+        .team-logo-item {
+            width: 150px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .team-logo-item img {
+            height: 60px;
+            width: auto;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s ease;
+        }
+
+        .team-ticker:hover .team-logo-item img {
+             filter: grayscale(0%) opacity(1);
+        }
+
+
+        /* Modal (Ventana Emergente) */
+        #product-modal,
+        #cart-modal,
+        #wishlist-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #F59E0B;
+            border-radius: 4px;
+        }
+
+        /* Estilo para scrollbar horizontal personalizado en móvil */
+        @media (max-width: 767px) {
+            .horizontal-scroll {
+                -ms-overflow-style: auto;
+                scrollbar-width: auto;
+            }
+
+            .horizontal-scroll::-webkit-scrollbar {
+                display: block;
+                height: 8px;
+            }
+
+            .horizontal-scroll::-webkit-scrollbar-track {
+                background: #1f2937;
+                border-radius: 4px;
+            }
+
+            .horizontal-scroll::-webkit-scrollbar-thumb {
+                background-color: #f4af23;
+                border-radius: 4px;
+            }
+        }
+        
+        .wishlist-btn-card .heart-icon {
+            transition: all 0.2s ease-in-out;
+        }
+        .wishlist-btn-card .heart-icon.filled {
+            fill: #ef4444; /* red-500 */
+            stroke: #ef4444;
+        }
+    </style>
 </head>
 
 <body class="bg-black">
@@ -32,50 +394,78 @@
     </video>
 
     <!-- Header -->
-    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-colors duration-500"
-        style="background-color: #f4af23;">
-        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <div class="header-logo">
-                <a href="#"><img src="assets/logos/LGB-11.png" alt="KLA Logo" class="w-full h-auto"></a>
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black">
+        <!-- Top Bar -->
+        <div class="top-bar bg-black text-white py-2 overflow-hidden">
+            <div class="container mx-auto text-center font-primary tracking-widest text-sm sm:text-base">
+                <a href="#shop" class="hover:text-gray-300 transition-colors">RELOJES | CONSIGUE EL TUYO</a>
             </div>
-            <div class="hidden md:flex items-center space-x-8 font-primary text-lg">
-                <a href="#shop" class="nav-link">Tienda</a>
-                <a href="#presidents" class="nav-link">Presidentes</a>
-                <a href="#reviews" class="nav-link">Reseñas</a>
-            </div>
-            <div class="flex items-center space-x-2 sm:space-x-4">
-                <div class="relative flex items-center">
-                    <button id="search-btn" class="p-2 z-10" style="color: #1a1a1a;">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                    <input id="search-input" type="text" placeholder="Buscar..."
-                        class="bg-gray-800 text-white rounded-full py-1 absolute right-0 w-0 focus:w-48 focus:px-4 focus:pl-10 focus:outline-none focus:ring-2 focus:ring-black">
+        </div>
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center border-t border-gray-800">
+            <!-- Left Group: Nav links (desktop) / Hamburger (mobile) -->
+            <div class="flex-1 flex items-center justify-start">
+                <!-- Hamburger Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8 font-primary text-lg">
+                    <a href="#shop" class="nav-link">Tienda</a>
+                    <a href="#presidents" class="nav-link">Presidentes</a>
+                    <a href="#reviews" class="nav-link">Reseñas</a>
                 </div>
-                <button id="cart-btn" class="relative p-2" style="color: #1a1a1a;">
+            </div>
+
+            <!-- Center Group (Logo) -->
+            <div class="flex-1 flex justify-center">
+                <div class="header-logo">
+                    <a href="#"><img src="assets\logos\LOGOKG-01.png" alt="KLA Logo" class="w-full h-auto"></a>
+                </div>
+            </div>
+
+            <!-- Right Group: Icons -->
+            <div class="flex-1 flex justify-end items-center space-x-2 sm:space-x-4">
+                <!-- Search Icon (Desktop only) -->
+                <button id="search-btn" class="hidden md:block p-2 text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <!-- Wishlist Icon -->
+                <button id="wishlist-btn" class="relative p-2 text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path>
+                    </svg>
+                     <span id="wishlist-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <!-- Cart Icon -->
+                <button id="cart-btn" class="relative p-2 text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
                         </path>
                     </svg>
-                    <span id="cart-count"
-                        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                </button>
-                <button id="mobile-menu-btn" class="md:hidden p-2" style="color: #1a1a1a;">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
                 </button>
             </div>
         </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full transform -translate-x-full"
-            style="background-color: rgba(244, 175, 35, 0.95);">
-            <div class="flex flex-col items-center space-y-4 py-4 font-primary text-xl">
+        <!-- Mobile Menu (Fullscreen) -->
+        <div id="mobile-menu" class="hidden fixed inset-0 bg-black z-[100] p-6 flex flex-col">
+            <div class="flex justify-end items-center mb-8">
+                <button id="close-mobile-menu-btn" class="p-2 text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="relative mb-8">
+                <input id="mobile-search-input" type="text" placeholder="Buscar..." class="w-full bg-gray-800 border border-gray-700 text-white rounded-md py-3 px-4 pl-12 focus:outline-none focus:ring-2 focus:ring-orange-500 font-primary uppercase">
+                <svg class="w-6 h-6 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col items-start space-y-6 font-primary text-2xl">
                 <a href="#shop" class="mobile-link nav-link">Tienda</a>
                 <a href="#presidents" class="mobile-link nav-link">Presidentes</a>
                 <a href="#reviews" class="mobile-link nav-link">Reseñas</a>
@@ -84,7 +474,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-16 bg-transparent">
+    <section class="pt-40 pb-16 bg-transparent">
         <div class="container mx-auto px-4 text-center">
             <img src="assets/logos/LGB-10.png" alt="Logo Hero" class="h-40 sm:h-56 md:h-80 mx-auto mb-4 reveal-up">
             <h1 class="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 text-white reveal-up">EL RELOJ DE LA LIGA</h1>
@@ -92,22 +482,19 @@
             </h2>
 
             <!-- Video Carousel -->
-            <div id="hero-carousel"
-                class="max-w-4xl mx-auto reveal-up relative overflow-hidden rounded-2xl border-2 sm:border-4">
+            <div id="hero-carousel" class="max-w-4xl mx-auto reveal-up relative overflow-hidden rounded-2xl border-2 sm:border-4">
                 <div id="hero-carousel-track" class="flex transition-transform duration-500 ease-in-out">
                     <!-- Los videos se inyectarán aquí por JavaScript -->
                 </div>
 
                 <!-- Botones de Navegación -->
-                <button id="prev-slide-btn"
-                    class="absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 bg-black/30 text-white p-1 sm:p-2 rounded-full hover:bg-black/50 transition-colors z-10">
+                <button id="prev-slide-btn" class="absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 bg-black/30 text-white p-1 sm:p-2 rounded-full hover:bg-black/50 transition-colors z-10">
                     <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                         </path>
                     </svg>
                 </button>
-                <button id="next-slide-btn"
-                    class="absolute top-1/2 right-2 sm:right-4 -translate-y-1/2 bg-black/30 text-white p-1 sm:p-2 rounded-full hover:bg-black/50 transition-colors z-10">
+                <button id="next-slide-btn" class="absolute top-1/2 right-2 sm:right-4 -translate-y-1/2 bg-black/30 text-white p-1 sm:p-2 rounded-full hover:bg-black/50 transition-colors z-10">
                     <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -121,8 +508,7 @@
 
             <!-- Botón de compra principal -->
             <div class="mt-8 text-center reveal-up">
-                <button id="buy-main-product-btn"
-                    class="kings-gradient-bg text-white font-primary text-xl sm:text-2xl md:text-3xl py-3 px-8 sm:px-10 rounded-lg uppercase pulse-btn">
+                <button id="buy-main-product-btn" class="kings-gradient-bg text-white font-primary text-xl sm:text-2xl md:text-3xl py-3 px-8 sm:px-10 rounded-lg uppercase pulse-btn">
                     HAZLO TUYO
                 </button>
             </div>
@@ -133,21 +519,28 @@
         <!-- Presidents Section -->
         <section id="presidents" class="py-16 sm:py-24">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade"
-                    style="color: #f4af23;">LLEVA
+                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade" style="color: #f4af23;">LLEVA
                     EL ESCUDO DE TU
                     PRESIDENTE</h2>
             </div>
             <!-- Contenedor para el scroll horizontal en móvil y la cuadrícula en escritorio -->
             <div class="w-full">
-                <div id="presidents-grid"
-                    class="flex overflow-x-auto horizontal-scroll gap-4 px-4 pb-4 md:grid md:grid-cols-4 md:gap-8 md:container md:mx-auto md:p-0">
+                <div id="presidents-grid" class="flex overflow-x-auto horizontal-scroll gap-4 px-4 pb-4 md:grid md:grid-cols-4 md:gap-8 md:container md:mx-auto md:p-0">
                     <!-- Presidentes se inyectan aquí vía JavaScript -->
                 </div>
             </div>
         </section>
 
-        <!-- Team Ticker Section -->
+        <!-- New Team Ticker Section -->
+        <section id="teams-ticker-2" class="py-8 bg-black/20">
+            <div class="team-ticker">
+                <div id="team-ticker-track-2" class="team-ticker-track">
+                    <!-- Logos se inyectan aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Original Team Ticker Section -->
         <section id="teams-ticker" class="py-8 bg-black/20">
             <div class="team-ticker">
                 <div id="team-ticker-track" class="team-ticker-track">
@@ -159,11 +552,8 @@
         <!-- Shop Section -->
         <section id="shop" class="py-16 sm:py-24">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade"
-                    style="color: #f4af23;">
-                    NUESTROS RELOJES</h2>
-                <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
-                    <!-- Productos se inyectan aquí -->
+                 <div id="collections-container">
+                    <!-- Las colecciones de productos se inyectarán aquí -->
                 </div>
             </div>
         </section>
@@ -179,10 +569,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="feature-card p-6 md:p-8 rounded-2xl reveal-feature">
                         <div class="kings-gradient-text mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
                         <h3 class="text-2xl md:text-4xl font-bold mb-2 text-white">CAJA RESISTENTE</h3>
@@ -190,10 +578,8 @@
                             IP68 contra agua y polvo.</p>
                     </div>
                     <div class="feature-card p-6 md:p-8 rounded-2xl reveal-feature">
-                        <div class="kings-gradient-text mb-4"><svg class="h-12 w-12 md:h-16 md:w-16 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div class="kings-gradient-text mb-4"><svg class="h-12 w-12 md:h-16 md:w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg></div>
                         <h3 class="text-2xl md:text-4xl font-bold mb-2 text-white">BATERÍA DE 600mAh</h3>
                         <p class="text-gray-400 text-sm md:text-base">Batería de larga duración y conexión Bluetooth 5.2
@@ -201,10 +587,8 @@
                     </div>
                     <div class="feature-card p-6 md:p-8 rounded-2xl reveal-feature">
                         <div class="kings-gradient-text mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         </div>
                         <h3 class="text-2xl md:text-4xl font-bold mb-2 text-white">MONITOREO DE SALUD</h3>
@@ -218,36 +602,29 @@
         <!-- FAQ Section -->
         <section id="faq" class="py-16 sm:py-24">
             <div class="container mx-auto px-4 max-w-3xl">
-                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade"
-                    style="color: #f4af23;">
+                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade" style="color: #f4af23;">
                     PREGUNTAS FRECUENTES
                 </h2>
                 <div class="space-y-4">
                     <details class="info-panel p-4 md:p-6 rounded-lg reveal-fade">
-                        <summary
-                            class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
-                            ¿Es compatible con mi celular?<span
-                                class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
+                        <summary class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
+                            ¿Es compatible con mi celular?<span class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
                         </summary>
                         <p class="mt-4 text-gray-400 text-sm md:text-base">Sí, el smartwatch KLSW-01 es totalmente
                             compatible con los sistemas operativos iOS y Android. Solo tienes que descargar la
                             aplicación correspondiente para sincronizarlo y recibir notificaciones.</p>
                     </details>
                     <details class="info-panel p-4 md:p-6 rounded-lg reveal-fade">
-                        <summary
-                            class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
-                            ¿Puedo nadar con él?<span
-                                class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
+                        <summary class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
+                            ¿Puedo nadar con él?<span class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
                         </summary>
                         <p class="mt-4 text-gray-400 text-sm md:text-base">El reloj KLSW-01 cuenta con una certificación
                             IP68, lo que significa que es resistente a la inmersión en agua y al polvo. Es perfecto para
                             salpicaduras, lluvia y actividades intensas, pero no se recomienda para buceo profundo.</p>
                     </details>
                     <details class="info-panel p-4 md:p-6 rounded-lg reveal-fade">
-                        <summary
-                            class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
-                            ¿La correa se cambia?<span
-                                class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
+                        <summary class="flex justify-between items-center cursor-pointer text-xl sm:text-2xl md:text-3xl">
+                            ¿La correa se cambia?<span class="plus-icon text-orange-400 text-3xl transition-transform duration-300">+</span>
                         </summary>
                         <p class="mt-4 text-gray-400 text-sm md:text-base">¡Por supuesto! El modelo KLSW-01 incluye 2
                             juegos de extensibles de silicón para que puedas personalizar el estilo de tu reloj según la
@@ -256,12 +633,51 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Info Banner Section -->
+        <section id="info-banner" class="py-16 sm:py-24 bg-black/30">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <!-- Envio Internacionales -->
+                    <div class="flex flex-col items-center">
+                        <svg class="w-10 h-10 mb-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 0 1 3.375-3.375h9.75a3.375 3.375 0 0 1 3.375 3.375v1.875M10.5 6h3.75m-3.75 0a1.5 1.5 0 0 0-1.5 1.5v3.75a1.5 1.5 0 0 0 1.5 1.5h3.75a1.5 1.5 0 0 0 1.5-1.5v-3.75a1.5 1.5 0 0 0-1.5-1.5m-3.75 0h.008v.015h-.008V6Z" />
+                        </svg>
+                        <h4 class="font-bold text-lg uppercase mb-2">Envío Internacionales</h4>
+                        <p class="text-gray-400 text-sm">Envíos a México, USA, Centroamérica y Sudamérica disponibles</p>
+                    </div>
+                    <!-- Producto Oficial -->
+                    <div class="flex flex-col items-center">
+                        <svg class="w-10 h-10 mb-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                        </svg>
+                        <h4 class="font-bold text-lg uppercase mb-2">Producto Oficial</h4>
+                        <p class="text-gray-400 text-sm">Producto 100% oficial Kings League Americas</p>
+                    </div>
+                    <!-- Pago Seguro -->
+                    <div class="flex flex-col items-center">
+                        <svg class="w-10 h-10 mb-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z" />
+                        </svg>
+                        <h4 class="font-bold text-lg uppercase mb-2">Pago Seguro</h4>
+                        <p class="text-gray-400 text-sm">Garantía de protección de datos, pago rapido y seguro.</p>
+                    </div>
+                    <!-- Atención al cliente -->
+                    <div class="flex flex-col items-center">
+                        <svg class="w-10 h-10 mb-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                        </svg>
+                        <h4 class="font-bold text-lg uppercase mb-2">Atención al cliente</h4>
+                        <p class="text-gray-400 text-sm">Resuelve todo tipo de consulta sobre tu pedido</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Reviews Grid Section -->
         <section id="reviews" class="py-16 sm:py-24">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade"
-                    style="color: #f4af23;">LO QUE
+                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade" style="color: #f4af23;">LO QUE
                     DICEN NUESTROS
                     CLIENTES</h2>
                 <div id="reviews-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -273,48 +689,37 @@
         <!-- Footer -->
         <footer class="text-center py-10" style="background-color: #f4af23;">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade"
-                    style="color: #000000;">REDES
+                <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade" style="color: #000000;">REDES
                     SOCIALES</h2>
                 <div class="w-32 mx-auto mb-6"><img src="assets/logos/LOGOS1-08.png" alt="KLA Logo"></div>
                 <div class="flex justify-center flex-wrap gap-x-4 gap-y-2 sm:gap-x-6 mb-6">
-                    <a href="https://www.facebook.com/share/14EYa2JAXaT/" target="_blank"
-                        class="text-black hover:text-white transition-colors">
+                    <a href="https://www.facebook.com/share/14EYa2JAXaT/" target="_blank" class="text-black hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z">
                             </path>
                         </svg>
                     </a>
-                    <a href="https://www.instagram.com/kingsleague_relojes?igsh=eXdiYW96aWZkMzNr" target="_blank"
-                        class="text-black hover:text-white transition-colors">
+                    <a href="https://www.instagram.com/kingsleague_relojes?igsh=eXdiYW96aWZkMzNr" target="_blank" class="text-black hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.849.069-3.205 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.252 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.802c-3.116 0-3.472.012-4.69.068-2.61.121-3.832 1.344-3.953 3.953-.056 1.218-.067 1.574-.067 4.69s.011 3.472.067 4.69c.121 2.61 1.344 3.832 3.953 3.953 1.218.056 1.574.067 4.69.067s3.472-.011 4.69-.067c2.61-.121 3.832-1.344 3.953-3.953.056-1.218.067-1.574.067-4.69s-.011-3.472-.067-4.69c-.121-2.61-1.344-3.832-3.953-3.953C15.472 3.975 15.116 3.965 12 3.965zM12 7.178c-2.652 0-4.822 2.17-4.822 4.822s2.17 4.822 4.822 4.822 4.822-2.17 4.822-4.822S14.652 7.178 12 7.178zm0 7.848c-1.664 0-3.022-1.358-3.022-3.022s1.358-3.022 3.022-3.022 3.022 1.358 3.022 3.022-1.358 3.022-3.022 3.022zm4.908-7.856c-.767 0-1.388.621-1.388 1.388s.621 1.388 1.388 1.388 1.388-.621 1.388-1.388-.621-1.388-1.388-1.388z">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.849.069-3.205 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.252 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.802c-3.116 0-3.472.012-4.69.068-2.61.121-3.832 1.344-3.953 3.953-.056 1.218-.067 1.574-.067 4.69s.011 3.472.067 4.69c.121 2.61 1.344 3.832 3.953 3.953 1.218.056 1.574.067 4.69.067s3.472-.011 4.69-.067c2.61-.121 3.832-1.344 3.953-3.953.056-1.218.067-1.574.067-4.69s-.011-3.472-.067-4.69c-.121-2.61-1.344-3.832-3.953-3.953C15.472 3.975 15.116 3.965 12 3.965zM12 7.178c-2.652 0-4.822 2.17-4.822 4.822s2.17 4.822 4.822 4.822 4.822-2.17 4.822-4.822S14.652 7.178 12 7.178zm0 7.848c-1.664 0-3.022-1.358-3.022-3.022s1.358-3.022 3.022-3.022 3.022 1.358 3.022 3.022-1.358 3.022-3.022 3.022zm4.908-7.856c-.767 0-1.388.621-1.388 1.388s.621 1.388 1.388 1.388 1.388-.621 1.388-1.388-.621-1.388-1.388-1.388z">
                             </path>
                         </svg>
                     </a>
-                    <a href="https://x.com/kingsleague_am?t=XsAOUUeuQqy-6TNlteVVjw&s=08" target="_blank"
-                        class="text-black hover:text-white transition-colors">
+                    <a href="https://x.com/kingsleague_am?t=XsAOUUeuQqy-6TNlteVVjw&s=08" target="_blank" class="text-black hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
                             </path>
                         </svg>
                     </a>
-                    <a href="https://youtube.com/@kingsleagueamericas?si=NC-5HNlLRi3A68ZM" target="_blank"
-                        class="text-black hover:text-white transition-colors">
+                    <a href="https://youtube.com/@kingsleagueamericas?si=NC-5HNlLRi3A68ZM" target="_blank" class="text-black hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M21.582 7.24c-.24-.89-1.02-1.57-1.92-1.72C17.69 5 12 5 12 5s-5.69 0-7.662.52c-.9.15-1.68.83-1.92 1.72C2 8.35 2 12 2 12s0 3.65.418 4.76c.24.89 1.02 1.57 1.92 1.72C6.31 19 12 19 12 19s5.69 0 7.662-.52c.9-.15 1.68-.83 1.92-1.72C22 15.65 22 12 22 12s0-3.65-.418-4.76zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z">
+                            <path d="M21.582 7.24c-.24-.89-1.02-1.57-1.92-1.72C17.69 5 12 5 12 5s-5.69 0-7.662.52c-.9.15-1.68.83-1.92 1.72C2 8.35 2 12 2 12s0 3.65.418 4.76c.24.89 1.02 1.57 1.92 1.72C6.31 19 12 19 12 19s5.69 0 7.662-.52c.9-.15 1.68-.83 1.92-1.72C22 15.65 22 12 22 12s0-3.65-.418-4.76zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z">
                             </path>
                         </svg>
                     </a>
-                    <a href="https://www.twitch.tv/kingsleagueamericas?sr=a" target="_blank"
-                        class="text-black hover:text-white transition-colors">
+                    <a href="https://www.twitch.tv/kingsleagueamericas?sr=a" target="_blank" class="text-black hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M2.149 0L.537 4.176v15.648h5.064v3.653h2.92l3.652-3.653h4.628L23.463 12V0H2.149zm2.149 2.149h17.016v8.696l-3.653 3.652h-5.063l-3.652 3.652v-3.652H4.298V2.149zM9.362 6.324h2.149v6.087H9.362V6.324zm6.087 0h2.149v6.087h-2.149V6.324z">
+                            <path d="M2.149 0L.537 4.176v15.648h5.064v3.653h2.92l3.652-3.653h4.628L23.463 12V0H2.149zm2.149 2.149h17.016v8.696l-3.653 3.652h-5.063l-3.652 3.652v-3.652H4.298V2.149zM9.362 6.324h2.149v6.087H9.362V6.324zm6.087 0h2.149v6.087h-2.149V6.324z">
                             </path>
                         </svg>
                     </a>
@@ -325,12 +730,12 @@
     </main>
 
     <!-- Product Modal -->
-    <div id="product-modal"
-        class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-        <div id="modal-content"
-            class="bg-black w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-lg relative flex flex-col border-2 border-orange-500/50">
-            <button id="close-modal" class="absolute top-2 right-2 text-gray-400 hover:text-white z-20 p-2"><svg
-                    class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div id="product-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-black w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-lg relative flex flex-col border-2 border-orange-500/50">
+            <div class="w-full bg-gray-800 text-white text-center py-2 text-sm font-primary tracking-wider">
+                Hasta 3 MSI | Garantía 2 Años | Envíos Rápidos
+            </div>
+            <button id="close-modal" class="absolute top-2 right-2 text-gray-400 hover:text-white z-20 p-2"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M6 18L18 6M6 6l12 12"></path>
                 </svg></button>
             <div class="modal-body overflow-y-auto p-4 sm:p-8">
@@ -339,15 +744,12 @@
                     <div class="relative">
                         <img id="modal-main-image" src="" alt="Product Image" class="w-full rounded-lg mb-4">
                         <!-- Flechas de Navegación -->
-                        <button id="modal-prev-btn"
-                            class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 transition-colors z-10">
+                        <button id="modal-prev-btn" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 transition-colors z-10">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                         </button>
-                        <button id="modal-next-btn"
-                            class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 transition-colors z-10">
+                        <button id="modal-next-btn" class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/50 transition-colors z-10">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                                 </path>
@@ -357,42 +759,78 @@
                     <div class="flex flex-col justify-center">
                         <h2 id="modal-product-name" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">
                         </h2>
+                         <p id="modal-product-model-sku" class="text-gray-400 mb-4"></p>
                         <div id="modal-product-price" class="flex items-baseline gap-4 mb-6">
                             <!-- Precios se inyectan aquí -->
                         </div>
+                        <p id="modal-product-description" class="text-gray-300 mb-6"></p>
                         <div class="mb-6">
                             <label class="block text-sm font-bold text-gray-400 mb-2">CANTIDAD</label>
                             <div class="flex items-center">
-                                <button id="quantity-minus"
-                                    class="bg-gray-700 h-10 w-10 rounded-l-lg text-white font-bold text-xl hover:bg-gray-600">-</button>
-                                <input id="quantity-input" type="text" value="1" readonly
-                                    class="h-10 w-16 text-center bg-gray-800 text-white font-bold">
-                                <button id="quantity-plus"
-                                    class="bg-gray-700 h-10 w-10 rounded-r-lg text-white font-bold text-xl hover:bg-gray-600">+</button>
+                                <button id="quantity-minus" class="bg-gray-700 h-10 w-10 rounded-l-lg text-white font-bold text-xl hover:bg-gray-600">-</button>
+                                <input id="quantity-input" type="text" value="1" readonly class="h-10 w-16 text-center bg-gray-800 text-white font-bold">
+                                <button id="quantity-plus" class="bg-gray-700 h-10 w-10 rounded-r-lg text-white font-bold text-xl hover:bg-gray-600">+</button>
                             </div>
                         </div>
                         <div class="space-y-4">
-                            <button id="add-to-cart-btn"
-                                class="w-full kings-gradient-bg hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase transition-transform hover:scale-105 font-primary">Añadir
+                            <button id="add-to-cart-btn" class="w-full kings-gradient-bg hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase transition-transform hover:scale-105 font-primary">Añadir
                                 al Carrito</button>
-                            <button
-                                class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase transition-transform hover:scale-105 pulse-btn font-primary">Comprar
+                            <button class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase transition-transform hover:scale-105 pulse-btn font-primary">Comprar
                                 Ahora</button>
                         </div>
+                        
+                        <!-- Compact Info Banner -->
+                        <div class="grid grid-cols-2 gap-4 mt-8 text-left">
+                             <!-- Envio -->
+                             <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-gray-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 0 1 3.375-3.375h9.75a3.375 3.375 0 0 1 3.375 3.375v1.875M10.5 6h3.75m-3.75 0a1.5 1.5 0 0 0-1.5 1.5v3.75a1.5 1.5 0 0 0 1.5 1.5h3.75a1.5 1.5 0 0 0 1.5-1.5v-3.75a1.5 1.5 0 0 0-1.5-1.5m-3.75 0h.008v.015h-.008V6Z" />
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-xs uppercase text-white">Envío Internacionales</h5>
+                                </div>
+                            </div>
+                            <!-- Oficial -->
+                             <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-gray-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-xs uppercase text-white">Producto Oficial</h5>
+                                </div>
+                            </div>
+                            <!-- Seguro -->
+                             <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-gray-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z" />
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-xs uppercase text-white">Pago Seguro</h5>
+                                </div>
+                            </div>
+                            <!-- Atencion -->
+                             <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-gray-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                </svg>
+                                <div>
+                                    <h5 class="font-bold text-xs uppercase text-white">Atención al cliente</h5>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
 
                 <div class="mb-12">
-                    <h3
-                        class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
                         Galería</h3>
                     <div id="modal-thumbnail-gallery" class="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-4"></div>
                 </div>
 
                 <!-- Specifications Section -->
                 <div class="mb-12">
-                    <h3
-                        class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
+                    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
                         Características
                     </h3>
                     <ul id="modal-specifications" class="list-disc list-inside text-gray-300 space-y-2">
@@ -401,8 +839,7 @@
                 </div>
                 <div>
                     <div>
-                        <h3
-                            class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
+                        <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 border-b-2 border-orange-500/50 pb-2">
                             Reseñas</h3>
                         <div id="modal-reviews-container" class="space-y-6"></div>
                     </div>
@@ -413,12 +850,10 @@
 
     <!-- Cart Modal -->
     <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-        <div id="cart-content"
-            class="bg-black w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-lg relative flex flex-col border-2 border-orange-500/50">
+        <div id="cart-content" class="bg-black w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-lg relative flex flex-col border-2 border-orange-500/50">
             <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-700">
                 <h2 class="text-3xl sm:text-4xl text-white">Mi Carrito</h2>
-                <button id="close-cart-modal" class="text-gray-400 hover:text-white p-2"><svg class="w-7 h-7"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="close-cart-modal" class="text-gray-400 hover:text-white p-2"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg></button>
             </div>
@@ -428,14 +863,865 @@
                     <span class="text-gray-400">Subtotal:</span>
                     <span id="cart-subtotal" class="text-white font-bold">$0.00</span>
                 </div>
-                <button
-                    class="w-full kings-gradient-bg hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase font-primary">Proceder
+                <button class="w-full kings-gradient-bg hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg text-base sm:text-lg uppercase font-primary">Proceder
                     al Pago</button>
             </div>
         </div>
     </div>
+    
+    <!-- Wishlist Modal -->
+    <div id="wishlist-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div id="wishlist-content" class="bg-black w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-lg relative flex flex-col border-2 border-orange-500/50">
+            <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-700">
+                <h2 class="text-3xl sm:text-4xl text-white">Mi Lista de Deseos</h2>
+                <button id="close-wishlist-modal" class="text-gray-400 hover:text-white p-2"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                    </svg></button>
+            </div>
+            <div id="wishlist-items-container" class="modal-body overflow-y-auto p-4 sm:p-6 space-y-4"></div>
+        </div>
+    </div>
 
-    <script src="js/main.js" defer></script>
+
+    <script>
+        // *** CAMBIO CLAVE: USAR 'load' EN LUGAR DE 'DOMContentLoaded' ***
+        window.addEventListener('load', () => {
+            // --- DATA ---
+            const productsData = [
+                {
+                    id: 1,
+                    collection: "smartwatches Kings League",
+                    name: "Kingssmart smartwatch 44mm",
+                    model: "Kingssmart",
+                    sku: "KLSW-01",
+                    price: 1299.00,
+                    fullPrice: 3998.00,
+                    description: "Smartwatch moderno con estilo deportivo y funcionalidad digital. Equipado con una pantalla LED de fácil lectura, caja de aleación con recubrimiento IPB y acabado pulido que brinda un look sofisticado. Su correa de silicona ofrece comodidad durante todo el día. Resistencia al agua de 3 ATM, ideal para el uso diario.",
+                    mainImage: 'assets/relojes/klsw-01/klsw-01 (1).jpg',
+                    gallery: [
+                        'assets/relojes/klsw-01/klsw-01 (1).jpg',
+                        'assets/relojes/klsw-01/klsw-01 (2).jpg',
+                        'assets/relojes/klsw-01/klsw-01 (3).jpg',
+                        'assets/relojes/klsw-01/klsw-01 (4).jpg',
+                        'assets/relojes/klsw-01/klsw-01 (5).jpg'
+                    ],
+                    specifications: [
+                        "Extensible de silicona, digital, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, pantalla Led",
+                        "Certificación IP68 a prueba de agua y polvo",
+                        "Batería de 600mAh de larga duración",
+                        "Linterna integrada y control de cámara",
+                        "Brújula, altitud y presión atmosférica",
+                        "Monitoreo de oxígeno en sangre, ritmo cardiaco y sueño",
+                        "Clima, control de música y deportes múltiples",
+                        "Bluetooth 5.2 para conexión rápida y estable",
+                        "Función de llamadas y notificaciones en tiempo real",
+                        "Pantalla personalizable",
+                        "Incluye: Smartwatch, cable de carga, manual y 2 juegos de extensibles."
+                    ]
+                },
+                {
+                    id: 2,
+                    collection: "🏁 STREET SERIES",
+                    name: "Black Crown Cuarzo 44mm",
+                    model: "Black Crown",
+                    sku: "STKL-01",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Diseño negro con detalles amarillos, Minimalismo con poder y presencia. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia. Lidera con estilo. Domina tu tiempo.",
+                    mainImage: 'assets/relojes/stkl-01/stkl-01 (1).jpg',
+                    gallery: ['assets/relojes/stkl-01/stkl-01 (1).jpg', 'assets/relojes/stkl-01/stkl-01 (2).jpg', 'assets/relojes/stkl-01/stkl-01 (3).jpg', 'assets/relojes/stkl-01/stkl-01 (4).jpg', 'assets/relojes/stkl-01/stkl-01 (5).jpg', 'assets/relojes/stkl-01/stkl-01 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 3,
+                    collection: "🛡 ICONIC SERIES",
+                    name: "Orange Guard Cuarzo 44mm",
+                    model: "Orange Guard",
+                    sku: "STKL-02",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Degradado naranja con líneas dinámicas. Energía visual en movimiento. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia.",
+                    mainImage: 'assets/relojes/stkl-02/stkl-02 (1).jpg',
+                    gallery: ['assets/relojes/stkl-02/stkl-02 (1).jpg', 'assets/relojes/stkl-02/stkl-02 (2).jpg', 'assets/relojes/stkl-02/stkl-02 (3).jpg', 'assets/relojes/stkl-02/stkl-02 (4).jpg', 'assets/relojes/stkl-02/stkl-02 (5).jpg', 'assets/relojes/stkl-02/stkl-02 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 4,
+                    collection: "🏁 STREET SERIES",
+                    name: "Sunstrike Cuarzo 44mm",
+                    model: "Sunstrike",
+                    sku: "STKL-03",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Correa bicolor con el logo frontal dominante. Estética directa y atrevida. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia.",
+                    mainImage: 'assets/relojes/stkl-03/stkl-03 (1).jpg',
+                    gallery: ['assets/relojes/stkl-03/stkl-03 (1).jpg', 'assets/relojes/stkl-03/stkl-03 (2).jpg', 'assets/relojes/stkl-03/stkl-03 (3).jpg', 'assets/relojes/stkl-03/stkl-03 (4).jpg', 'assets/relojes/stkl-03/stkl-03 (5).jpg', 'assets/relojes/stkl-03/stkl-03 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 5,
+                    collection: "🛡 ICONIC SERIES",
+                    name: "Origen Cuarzo 44mm",
+                    model: "Origen",
+                    sku: "STKL-04",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Carátula limpia con el logo triple y estética institucional. Identidad pura. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia.",
+                    mainImage: 'assets/relojes/stkl-04/stkl-04 (1).jpg',
+                    gallery: ['assets/relojes/stkl-04/stkl-04 (1).jpg', 'assets/relojes/stkl-04/stkl-04 (2).jpg', 'assets/relojes/stkl-04/stkl-04 (3).jpg', 'assets/relojes/stkl-04/stkl-04 (4).jpg', 'assets/relojes/stkl-04/stkl-04 (5).jpg', 'assets/relojes/stkl-04/stkl-04 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 6,
+                    collection: "🛡 ICONIC SERIES",
+                    name: "Commander Cuarzo 44mm",
+                    model: "Commander",
+                    sku: "STKL-05",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Flechas ascendentes en la correa y rostro del rey al centro. Liderazgo visual. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia.",
+                    mainImage: 'assets/relojes/stkl-05/stkl-05 (1).jpg',
+                    gallery: ['assets/relojes/stkl-05/stkl-05 (1).jpg', 'assets/relojes/stkl-05/stkl-05 (2).jpg', 'assets/relojes/stkl-05/stkl-05 (3).jpg', 'assets/relojes/stkl-05/stkl-05 (4).jpg', 'assets/relojes/stkl-05/stkl-05 (5).jpg', 'assets/relojes/stkl-05/stkl-05 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 7,
+                    collection: "🏁 STREET SERIES",
+                    name: "Kingslam Cuarzo 44mm",
+                    model: "Kingslam",
+                    sku: "STKL-06",
+                    price: 999.00,
+                    fullPrice: 2398.00,
+                    description: "Correa bicolor con el logo frontal dominante. Estética directa y atrevida. Luce el estilo único de la Kings League con este reloj de colección. Cuenta con extensible de silicona, de movimiento de cuarzo, y resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y con gran presencia.",
+                    mainImage: 'assets/relojes/stkl-06/stkl-06 (1).jpg',
+                    gallery: ['assets/relojes/stkl-06/stkl-06 (1).jpg', 'assets/relojes/stkl-06/stkl-06 (2).jpg', 'assets/relojes/stkl-06/stkl-06 (3).jpg', 'assets/relojes/stkl-06/stkl-06 (4).jpg', 'assets/relojes/stkl-06/stkl-06 (5).jpg', 'assets/relojes/stkl-06/stkl-06 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 8,
+                    collection: "🏆 PERFORMANCE SERIES",
+                    name: "Golden Play Cronógrafo 44mm",
+                    model: "Golden Play",
+                    sku: "STKL-07",
+                    price: 1299.00,
+                    fullPrice: 2998.00,
+                    description: "Carátula blanca y correa amarilla. Claridad táctica con diseño llamativo. Diseñado para los verdaderos fans, este reloj Kings League combina estética moderna y precisión. Incorpora extensible de silicona, movimiento de cuarzo, cronógrafo funcional y calendario, además de resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y llamativo.",
+                    mainImage: 'assets/relojes/stkl-07/stkl-07 (1).jpg',
+                    gallery: ['assets/relojes/stkl-07/stkl-07 (1).jpg', 'assets/relojes/stkl-07/stkl-07 (2).jpg', 'assets/relojes/stkl-07/stkl-07 (3).jpg', 'assets/relojes/stkl-07/stkl-07 (4).jpg', 'assets/relojes/stkl-07/stkl-07 (5).jpg', 'assets/relojes/stkl-07/stkl-07 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 9,
+                    collection: "🏆 PERFORMANCE SERIES",
+                    name: "Golden Pass Cronógrafo 44mm",
+                    model: "Golden Pass",
+                    sku: "STKL-08",
+                    price: 1299.00,
+                    fullPrice: 2998.00,
+                    description: "Cronografo negro con detalles dorados. Precisión, fuerza y estilo competitivo. Diseñado para los verdaderos fans, este reloj Kings League combina estética moderna y precisión. Incorpora extensible de silicona, movimiento de cuarzo, cronógrafo funcional y calendario, además de resistencia al agua de 3 ATM. Su caja de aleación con recubrimiento IPB pulido y cristal mineral lo hacen resistente y llamativo.",
+                    mainImage: 'assets/relojes/stkl-08/stkl-08 (1).jpg',
+                    gallery: ['assets/relojes/stkl-08/stkl-08 (1).jpg', 'assets/relojes/stkl-08/stkl-08 (2).jpg', 'assets/relojes/stkl-08/stkl-08 (3).jpg', 'assets/relojes/stkl-08/stkl-08 (4).jpg', 'assets/relojes/stkl-08/stkl-08 (5).jpg', 'assets/relojes/stkl-08/stkl-08 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                },
+                {
+                    id: 10,
+                    collection: "🛡 ICONIC SERIES",
+                    name: "Crown Code Cuarzo 44mm",
+                    model: "Crown Code",
+                    sku: "STKL-09",
+                    price: 999.00,
+                    fullPrice: 2598.00,
+                    description: "Caja tonneau, marcadores tipo joya y rostro real en gran escala. Estatus puro. Reloj exclusivo de la Kings League con extensible de silicona, movimiento de cuarzo y resistencia al agua de 3 ATM. Destaca por su caja cuadrada de aleación con recubrimiento IPB pulido y cristal mineral. Un accesorio con estilo único y actitud deportiva.",
+                    mainImage: 'assets/relojes/stkl-09/stkl-09 (1).jpg',
+                    gallery: ['assets/relojes/stkl-09/stkl-09 (1).jpg', 'assets/relojes/stkl-09/stkl-09 (2).jpg', 'assets/relojes/stkl-09/stkl-09 (3).jpg', 'assets/relojes/stkl-09/stkl-09 (4).jpg', 'assets/relojes/stkl-09/stkl-09 (5).jpg', 'assets/relojes/stkl-09/stkl-09 (6).jpg'],
+                    specifications: ["Extensible de silicona, Cuarzo, 3 ATM, Caja de Aleación con recubrimiento IPB y pulido, Cristal de mineral"]
+                }
+            ];
+
+
+            let products = productsData.map((p) => {
+                return {
+                    ...p,
+                    reviews: [{
+                        author: 'Juan P.',
+                        rating: 5,
+                        text: '¡Increíble! Es más resistente de lo que imaginé.'
+                    }, {
+                        author: 'Ana G.',
+                        rating: 4,
+                        text: 'Muy buen diseño y la pantalla se ve genial.'
+                    }]
+                };
+            });
+
+            const presidents = [{
+                name: "'Chicharito' Hernández",
+                team: 'Olimpo United',
+                logo: 'assets/escudos/OlimpoUnitedFC.webp',
+                background: 'assets/presidentes/CH14.png'
+            }, {
+                name: 'Hnos. Montiel',
+                team: 'Peluche Caligari',
+                logo: 'assets/escudos/PelucheCaligariFC.webp',
+                background: 'assets/presidentes/ESCORPION.png'
+            }, {
+                name: 'Alana + Barcagamer',
+                team: 'Raniza FC',
+                logo: 'assets/escudos/RanizaFC.webp',
+                background: 'assets/presidentes/ALANA.png'
+            }, {
+                name: 'NataliaMX + PipePunk',
+                team: 'Club de Cuervos',
+                logo: 'assets/escudos/ClubDeCuervosFC.webp',
+                background: 'assets/presidentes/PIPEYNATA.png'
+            }, ];
+
+            const teams = [{
+                name: 'Peluche Caligari',
+                logo: 'assets/escudos/PelucheCaligariFC.webp'
+            }, {
+                name: 'Raniza FC',
+                logo: 'assets/escudos/RanizaFC.webp'
+            }, {
+                name: 'Real Titán',
+                logo: 'assets/escudos/TitanFC.webp'
+            }, {
+                name: 'Muchachos FC',
+                logo: 'assets/escudos/MuchachosFC.webp'
+            }, {
+                name: 'West Santos FC',
+                logo: 'assets/escudos/WestSantosFC.webp'
+            }, {
+                name: 'Olimpo United',
+                logo: 'assets/escudos/OlimpoUnitedFC.webp'
+            }, {
+                name: 'Galácticos del Caribe',
+                logo: 'assets/escudos/GalacticosDelCaribeFC.webp'
+            }, {
+                name: 'Club de Cuervos',
+                logo: 'assets/escudos/ClubDeCuervosFC.webp'
+            }, {
+                name: 'Los Aliens FC',
+                logo: 'assets/escudos/LosAliens.webp'
+            }, {
+                name: 'Atlético Parceros FC',
+                logo: 'assets/escudos/ParcerosFC.webp'
+            }, {
+                name: 'Persas FC',
+                logo: 'assets/escudos/PersasFC.webp'
+            }, {
+                name: 'Los Chamos FC',
+                logo: 'assets/escudos/ChamosFC.webp'
+            }, ];
+            
+            const teams2 = [...teams].sort(() => Math.random() - 0.5); // Shuffled teams for the second ticker
+
+            const reviewsData = [{
+                author: 'Michelle C.',
+                rating: 5,
+                text: 'Ok, era escéptica sobre este reloj...',
+                image: './img/reviews/review-1.jpg'
+            }, {
+                author: 'Nick R.',
+                rating: 5,
+                text: 'Este reloj hace casi todo lo que necesito...',
+                image: './img/reviews/review-2.jpg'
+            }, {
+                author: 'Jeffrey A.',
+                rating: 4,
+                text: 'Mi mejor reloj hasta ahora...',
+                image: './img/reviews/review-3.jpg'
+            }, {
+                author: 'Cherrie L.',
+                rating: 5,
+                text: 'El reloj llegó en 7 días...',
+                image: './img/reviews/review-4.jpg'
+            }, ];
+
+            // --- DOM ELEMENTS ---
+            let cart = [];
+            let wishlist = [];
+            const getEl = (id) => document.getElementById(id);
+            const preloader = getEl('preloader');
+            const collectionsContainer = getEl('collections-container');
+            const presidentsGrid = getEl('presidents-grid');
+            const reviewsGrid = getEl('reviews-grid-container');
+            const teamTickerContainer1 = getEl('teams-ticker');
+            const teamTickerTrack1 = getEl('team-ticker-track');
+            const teamTickerContainer2 = getEl('teams-ticker-2');
+            const teamTickerTrack2 = getEl('team-ticker-track-2');
+            const modal = getEl('product-modal');
+            const closeModalBtn = getEl('close-modal');
+            const modalName = getEl('modal-product-name');
+            const modalPrice = getEl('modal-product-price');
+            const modalDescription = getEl('modal-product-description');
+            const modalModelSku = getEl('modal-product-model-sku');
+            const modalMainImage = getEl('modal-main-image');
+            const modalSpecifications = getEl('modal-specifications');
+            const modalThumbnailGallery = getEl('modal-thumbnail-gallery');
+            const modalReviewsContainer = getEl('modal-reviews-container');
+            const quantityInput = getEl('quantity-input');
+            const quantityPlus = getEl('quantity-plus');
+            const quantityMinus = getEl('quantity-minus');
+            const addToCartBtn = getEl('add-to-cart-btn');
+            const cartBtn = getEl('cart-btn');
+            const cartCount = getEl('cart-count');
+            const header = getEl('header');
+            const cartModal = getEl('cart-modal');
+            const closeCartModalBtn = getEl('close-cart-modal');
+            const cartItemsContainer = getEl('cart-items-container');
+            const cartSubtotal = getEl('cart-subtotal');
+            const wishlistBtn = getEl('wishlist-btn');
+            const wishlistCount = getEl('wishlist-count');
+            const wishlistModal = getEl('wishlist-modal');
+            const closeWishlistModalBtn = getEl('close-wishlist-modal');
+            const wishlistItemsContainer = getEl('wishlist-items-container');
+
+            // --- NEW HEADER ELEMENTS ---
+            const mobileMenuBtn = getEl('mobile-menu-btn');
+            const mobileMenu = getEl('mobile-menu');
+            const closeMobileMenuBtn = getEl('close-mobile-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const mobileSearchInput = getEl('mobile-search-input');
+
+
+            // --- HERO CAROUSEL ELEMENTS ---
+            const heroCarouselTrack = getEl('hero-carousel-track');
+            const carouselDotsContainer = getEl('carousel-dots');
+            const prevSlideBtn = getEl('prev-slide-btn');
+            const nextSlideBtn = getEl('next-slide-btn');
+            const buyMainProductBtn = getEl('buy-main-product-btn');
+
+            // --- MODAL GALLERY ELEMENTS ---
+            const modalPrevBtn = getEl('modal-prev-btn');
+            const modalNextBtn = getEl('modal-next-btn');
+            let currentGalleryIndex = 0;
+            let currentProductGallery = [];
+
+            // --- HERO CAROUSEL LOGIC ---
+            const heroVideos = [
+                'assets/logos/VIDEOHERO.mp4',
+                'assets/logos/VIDEOHERO3.mp4',
+                'assets/logos/VIDEOHERO2.mp4'
+            ];
+            let currentSlide = 0;
+            let autoSlideInterval;
+
+            // Populate carousel
+            heroVideos.forEach((src, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'w-full flex-shrink-0';
+                const video = document.createElement('video');
+                video.src = src;
+                video.className = 'w-full h-auto';
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true; // Important for iOS
+                video.setAttribute('autoplay', ''); // Ensure autoplay
+                slide.appendChild(video);
+                heroCarouselTrack.appendChild(slide);
+
+                const dot = document.createElement('button');
+                dot.className = 'w-3 h-3 rounded-full transition-colors';
+                dot.dataset.index = index;
+                carouselDotsContainer.appendChild(dot);
+            });
+
+            const slides = heroCarouselTrack.querySelectorAll('video');
+            const dots = carouselDotsContainer.querySelectorAll('button');
+
+            const showSlide = (index) => {
+                heroCarouselTrack.style.transform = `translateX(-${index * 100}%)`;
+
+                dots.forEach((dot, i) => {
+                    dot.style.backgroundColor = i === index ? '#F59E0B' : '#888';
+                });
+
+                slides.forEach((video, i) => {
+                    if (i === index) {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                // Autoplay was prevented.
+                            });
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+
+                currentSlide = index;
+            };
+
+            const nextSlide = () => {
+                const nextSlideIndex = (currentSlide + 1) % slides.length;
+                showSlide(nextSlideIndex);
+            };
+
+            const startAutoSlide = () => {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, 7000);
+            };
+
+            const resetAutoSlide = () => {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            };
+
+            nextSlideBtn.addEventListener('click', () => {
+                nextSlide();
+                resetAutoSlide();
+            });
+
+            prevSlideBtn.addEventListener('click', () => {
+                const prevSlideIndex = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prevSlideIndex);
+                resetAutoSlide();
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    showSlide(index);
+                    resetAutoSlide();
+                });
+            });
+
+            buyMainProductBtn.addEventListener('click', () => {
+                openModal(1);
+            });
+
+            // --- RENDER FUNCTIONS ---
+            const renderAllCollections = () => {
+                collectionsContainer.innerHTML = '';
+                const collectionOrder = ["smartwatches Kings League", "🏆 PERFORMANCE SERIES", "🛡 ICONIC SERIES", "🏁 STREET SERIES"];
+
+                collectionOrder.forEach(collectionName => {
+                    const productsInCollection = products.filter(p => p.collection === collectionName);
+                    if (productsInCollection.length > 0) {
+                        const collectionSection = document.createElement('div');
+                        collectionSection.className = 'mb-16';
+                        
+                        const collectionTitle = document.createElement('h2');
+                        collectionTitle.className = 'text-3xl sm:text-4xl md:text-6xl font-bold text-center mb-12 reveal-fade';
+                        collectionTitle.style.color = '#f4af23';
+                        collectionTitle.textContent = collectionName;
+                        collectionSection.appendChild(collectionTitle);
+                        
+                        const productGrid = document.createElement('div');
+                        productGrid.className = 'flex overflow-x-auto horizontal-scroll md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 pb-4';
+                        
+                        productsInCollection.forEach(product => {
+                            const card = document.createElement('div');
+                            card.className = 'product-card rounded-lg overflow-hidden shadow-lg flex-shrink-0 w-4/5 sm:w-3/5 md:w-auto flex flex-col md:flex-row';
+                            card.dataset.productId = product.id;
+                            
+                            const isWishlisted = wishlist.includes(product.id);
+
+                            card.innerHTML = `
+                                <div class="md:w-1/2 relative">
+                                    <img src="${product.mainImage}" alt="${product.name}" class="w-full h-48 md:h-full object-cover cursor-pointer" onclick="openModal(${product.id})">
+                                    <button class="wishlist-btn-card absolute top-2 right-2 bg-black/50 p-2 rounded-full text-white hover:text-red-500" data-product-id="${product.id}">
+                                        <svg class="w-6 h-6 heart-icon ${isWishlisted ? 'filled' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="md:w-1/2 p-3 sm:p-4 flex flex-col justify-center cursor-pointer" onclick="openModal(${product.id})">
+                                    <h3 class="text-lg sm:text-xl font-primary text-white">${product.name}</h3>
+                                    <div class="flex items-baseline gap-2 mt-1">
+                                        <p class="text-md sm:text-lg kings-gradient-text font-bold">$${product.price.toFixed(2)}</p>
+                                        <p class="text-xs text-gray-400 line-through">$${product.fullPrice.toFixed(2)}</p>
+                                    </div>
+                                </div>`;
+                            productGrid.appendChild(card);
+                        });
+                        collectionSection.appendChild(productGrid);
+                        collectionsContainer.appendChild(collectionSection);
+                    }
+                });
+                 // Add event listeners after rendering
+                document.querySelectorAll('.wishlist-btn-card').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent modal from opening
+                        const productId = parseInt(btn.dataset.productId);
+                        toggleWishlist(productId);
+                    });
+                });
+                 // Make sure openModal is globally accessible for inline onclick
+                window.openModal = openModal;
+            };
+
+
+            const renderPresidents = () => {
+                presidentsGrid.innerHTML = '';
+                presidents.forEach((president) => {
+                    const card = document.createElement('div');
+                    card.className = 'president-card relative rounded-lg overflow-hidden shadow-lg bg-cover bg-center w-64 md:w-auto h-96 flex-shrink-0';
+                    card.style.backgroundImage = `url('${president.background}')`;
+
+                    card.innerHTML = `
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-end">
+                        <div>
+                            <h3 class="text-xl font-primary text-white leading-tight">${president.name}</h3>
+                            <p class="text-lg kings-gradient-text font-bold">${president.team}</p>
+                        </div>
+                        <img src="${president.logo}" alt="${president.team}" class="w-16 h-16 flex-shrink-0 ml-2">
+                    </div>`;
+                    presidentsGrid.appendChild(card);
+                });
+            };
+            
+            const renderTeamTicker = (trackElement, teamsArray) => {
+                trackElement.innerHTML = ''; // Clear previous items
+                const allTeamLogos = [...teamsArray, ...teamsArray, ...teamsArray]; // Triple the content to ensure seamless loop
+                allTeamLogos.forEach(team => {
+                    const item = document.createElement('div');
+                    item.className = 'team-logo-item';
+                    item.innerHTML = `<img src="${team.logo}" alt="${team.name}" title="${team.name}">`;
+                    trackElement.appendChild(item);
+                });
+            };
+
+            const renderReviews = () => {
+                reviewsGrid.innerHTML = '';
+                reviewsData.forEach(review => {
+                    const card = document.createElement('div');
+                    card.className = 'review-card p-4 sm:p-6 rounded-lg flex flex-col gap-4';
+                    let stars = Array.from({
+                        length: 5
+                    }, (_, i) => `<span class="text-xl text-${i < review.rating ? 'yellow-400' : 'gray-500'}">★</span>`).join('');
+                    card.innerHTML = `
+                    <img src="${review.image}" alt="Review de ${review.author}" class="rounded-lg w-full h-auto object-cover">
+                    <div>
+                        <div class="flex items-center mb-2">${stars}</div>
+                        <h3 class="font-bold text-white">${review.author} <span class="text-green-400 text-sm font-normal">✔ Verificado</span></h3>
+                    </div>
+                    <p class="text-gray-400 text-sm">${review.text}</p>`;
+                    reviewsGrid.appendChild(card);
+                });
+            };
+
+            // --- MODAL & CART & WISHLIST LOGIC ---
+            const showGalleryImage = (index) => {
+                if (index < 0) {
+                    index = currentProductGallery.length - 1;
+                } else if (index >= currentProductGallery.length) {
+                    index = 0;
+                }
+                modalMainImage.src = currentProductGallery[index];
+                currentGalleryIndex = index;
+            };
+
+            const openModal = (productId) => {
+                const product = products.find(p => p.id == productId);
+                if (!product) return;
+
+                currentProductGallery = product.gallery;
+                currentGalleryIndex = 0;
+
+                modalName.textContent = product.name;
+                modalModelSku.textContent = `Modelo: ${product.model} | SKU: ${product.sku}`;
+                modalDescription.textContent = product.description;
+                modalPrice.innerHTML = `
+                    <p class="text-2xl sm:text-3xl md:text-4xl font-bold kings-gradient-text">$${product.price.toFixed(2)}</p>
+                    <p class="text-lg sm:text-xl md:text-2xl text-gray-400 line-through">$${product.fullPrice.toFixed(2)}</p>
+                    `;
+
+                showGalleryImage(currentGalleryIndex);
+
+                addToCartBtn.dataset.productId = product.id;
+                quantityInput.value = 1;
+
+                modalSpecifications.innerHTML = product.specifications.map(spec => `<li>${spec}</li>`).join('');
+
+                modalThumbnailGallery.innerHTML = product.gallery.map((imgSrc, index) =>
+                    `<img src="${imgSrc}" alt="Thumbnail" data-index="${index}" class="w-full h-16 sm:h-20 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-orange-500">`
+                ).join('');
+
+                modalThumbnailGallery.querySelectorAll('img').forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        showGalleryImage(parseInt(thumb.dataset.index));
+                    });
+                });
+
+                modalReviewsContainer.innerHTML = product.reviews.length > 0 ? product.reviews.map(review => {
+                    let stars = Array.from({
+                        length: 5
+                    }, (_, i) => `<span class="text-xl text-${i < review.rating ? 'yellow-400' : 'gray-500'}">★</span>`).join('');
+                    return `<div class="info-panel p-4 rounded-lg"><div class="flex items-center mb-2"><p class="font-bold text-white mr-2">${review.author}</p><div class="flex">${stars}</div></div><p class="text-gray-300">${review.text}</p></div>`;
+                }).join('') : `<p class="text-gray-400">No hay reseñas todavía.</p>`;
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+            window.openModal = openModal;
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            };
+
+            const openCartModal = () => {
+                renderCart();
+                cartModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeCartModal = () => {
+                cartModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            };
+            
+            const openWishlistModal = () => {
+                renderWishlist();
+                wishlistModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeWishlistModal = () => {
+                wishlistModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            };
+
+            const updateCartCount = () => {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+                cartCount.classList.toggle('hidden', totalItems === 0);
+            };
+            
+            const updateWishlistCount = () => {
+                wishlistCount.textContent = wishlist.length;
+                wishlistCount.classList.toggle('hidden', wishlist.length === 0);
+            };
+
+            const updateCart = (productId, newQuantity) => {
+                const itemIndex = cart.findIndex(item => item.productId === productId);
+                if (itemIndex > -1) {
+                    if (newQuantity > 0) cart[itemIndex].quantity = newQuantity;
+                    else cart.splice(itemIndex, 1);
+                }
+                renderCart();
+                updateCartCount();
+            };
+            
+            const toggleWishlist = (productId) => {
+                const index = wishlist.indexOf(productId);
+                if (index > -1) {
+                    wishlist.splice(index, 1);
+                } else {
+                    wishlist.push(productId);
+                }
+                updateWishlistCount();
+                renderAllCollections(); // Re-render to update heart icons
+                renderWishlist(); // Also update the wishlist modal if it's open
+            };
+
+            const renderCart = () => {
+                cartItemsContainer.innerHTML = '';
+                let subtotal = 0;
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = `<p class="text-gray-400 text-center">Tu carrito está vacío.</p>`;
+                    cartSubtotal.textContent = '$0.00';
+                    return;
+                }
+                cart.forEach(cartItem => {
+                    const product = products.find(p => p.id === cartItem.productId);
+                    if (!product) return;
+                    subtotal += product.price * cartItem.quantity;
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex items-center gap-3 sm:gap-4';
+                    itemEl.innerHTML = `
+                    <img src="${product.mainImage}" alt="${product.name}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-cover">
+                    <div class="flex-grow">
+                        <h4 class="text-base sm:text-lg font-bold text-white">${product.name}</h4>
+                        <p class="text-gray-400 text-sm sm:text-base">$${product.price.toFixed(2)}</p>
+                    </div>
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <button data-id="${product.id}" class="cart-quantity-minus bg-gray-700 h-8 w-8 rounded-md text-white font-bold">-</button>
+                        <span class="w-8 text-center font-bold">${cartItem.quantity}</span>
+                        <button data-id="${product.id}" class="cart-quantity-plus bg-gray-700 h-8 w-8 rounded-md text-white font-bold">+</button>
+                    </div>
+                    <button data-id="${product.id}" class="cart-item-remove text-red-500 hover:text-red-400 p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>`;
+                    cartItemsContainer.appendChild(itemEl);
+                });
+                cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+                cartItemsContainer.querySelectorAll('.cart-quantity-minus').forEach(btn => btn.onclick = (e) => {
+                    const id = parseInt(e.currentTarget.dataset.id);
+                    updateCart(id, cart.find(i => i.productId === id).quantity - 1);
+                });
+                cartItemsContainer.querySelectorAll('.cart-quantity-plus').forEach(btn => btn.onclick = (e) => {
+                    const id = parseInt(e.currentTarget.dataset.id);
+                    updateCart(id, cart.find(i => i.productId === id).quantity + 1);
+                });
+                cartItemsContainer.querySelectorAll('.cart-item-remove').forEach(btn => btn.onclick = (e) => {
+                    const id = parseInt(e.currentTarget.dataset.id);
+                    updateCart(id, 0);
+                });
+            };
+            
+            const renderWishlist = () => {
+                wishlistItemsContainer.innerHTML = '';
+                if (wishlist.length === 0) {
+                    wishlistItemsContainer.innerHTML = `<p class="text-gray-400 text-center">Tu lista de deseos está vacía.</p>`;
+                    return;
+                }
+                wishlist.forEach(productId => {
+                    const product = products.find(p => p.id === productId);
+                    if (!product) return;
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex items-center gap-3 sm:gap-4';
+                    itemEl.innerHTML = `
+                    <img src="${product.mainImage}" alt="${product.name}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-cover">
+                    <div class="flex-grow">
+                        <h4 class="text-base sm:text-lg font-bold text-white">${product.name}</h4>
+                        <p class="text-gray-400 text-sm sm:text-base">$${product.price.toFixed(2)}</p>
+                    </div>
+                    <button data-id="${product.id}" class="wishlist-item-remove text-red-500 hover:text-red-400 p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>`;
+                    wishlistItemsContainer.appendChild(itemEl);
+                });
+                 wishlistItemsContainer.querySelectorAll('.wishlist-item-remove').forEach(btn => btn.onclick = (e) => {
+                    const id = parseInt(e.currentTarget.dataset.id);
+                    toggleWishlist(id);
+                });
+            };
+
+            // --- EVENT LISTENERS ---
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('header-shrink', window.scrollY > 50)
+            });
+
+            addToCartBtn.addEventListener('click', (e) => {
+                const productId = parseInt(e.target.dataset.productId);
+                const quantity = parseInt(quantityInput.value);
+                const existingItem = cart.find(item => item.productId === productId);
+                if (existingItem) existingItem.quantity += quantity;
+                else cart.push({
+                    productId,
+                    quantity
+                });
+                updateCartCount();
+                closeModal();
+            });
+
+            cartBtn.addEventListener('click', openCartModal);
+            closeCartModalBtn.addEventListener('click', closeCartModal);
+            wishlistBtn.addEventListener('click', openWishlistModal);
+            closeWishlistModalBtn.addEventListener('click', closeWishlistModal);
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            cartModal.addEventListener('click', (e) => {
+                if (e.target === cartModal) closeCartModal();
+            });
+             wishlistModal.addEventListener('click', (e) => {
+                if (e.target === wishlistModal) closeWishlistModal();
+            });
+            quantityPlus.addEventListener('click', () => {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            });
+            quantityMinus.addEventListener('click', () => {
+                if (parseInt(quantityInput.value) > 1) quantityInput.value = parseInt(quantityInput.value) - 1;
+            });
+
+            // --- NEW MOBILE MENU LOGIC ---
+            const openMobileMenu = () => {
+                mobileMenu.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeMobileMenu = () => {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            };
+
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+            closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    closeMobileMenu();
+                });
+            });
+
+            mobileSearchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                // This will need adjustment to search across all collections
+                // For now, it just re-renders, a search implementation would be more complex
+                renderAllCollections();
+            });
+
+
+            document.querySelectorAll('details').forEach((el) => {
+                el.addEventListener('toggle', (e) => {
+                    const plusIcon = e.target.querySelector('.plus-icon');
+                    if (plusIcon) {
+                        plusIcon.textContent = e.target.open ? '-' : '+';
+                    }
+                });
+            });
+
+            // *** EVENT LISTENERS PARA FLECHAS DEL MODAL ***
+            modalNextBtn.addEventListener('click', () => {
+                showGalleryImage(currentGalleryIndex + 1);
+            });
+
+            modalPrevBtn.addEventListener('click', () => {
+                showGalleryImage(currentGalleryIndex - 1);
+            });
+
+            // --- INITIALIZATION ---
+            showSlide(0); // Initialize carousel
+            startAutoSlide(); // Start automatic sliding
+            renderAllCollections();
+            renderPresidents();
+            
+            renderTeamTicker(teamTickerTrack1, teams);
+            renderTeamTicker(teamTickerTrack2, teams2);
+
+            renderReviews();
+
+            // --- HIDE PRELOADER ---
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.classList.add('preloader-hidden');
+                }, 500); // A small delay
+            }
+
+            // --- SCROLL ANIMATIONS ---
+            const sr = ScrollReveal({
+                distance: '50px',
+                duration: 800,
+                easing: 'cubic-bezier(0.5, 0, 0, 1)',
+                reset: false
+            });
+            sr.reveal('.reveal-up', {
+                origin: 'bottom',
+                interval: 100
+            });
+            sr.reveal('.reveal-fade', {
+                opacity: 0,
+                interval: 100
+            });
+            sr.reveal('.reveal-feature', {
+                origin: 'bottom',
+                interval: 150,
+                viewFactor: 0.3
+            });
+            sr.reveal('.review-card, .product-card, .president-card', {
+                origin: 'bottom',
+                interval: 50,
+                viewFactor: 0.1
+            });
+        });
+    </script>
 </body>
 
 </html>
